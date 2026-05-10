@@ -1,0 +1,97 @@
+<h2>Wordog 视觉风格方向</h2>
+<p class="subtitle">选择一个最接近你想象的风格基调，后续所有 UI 都围绕它设计</p>
+
+<div class="cards">
+  <div class="card" data-choice="pastel" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #fef9ef 0%, #fce4ec 50%, #e8eaf6 100%); padding: 36px 20px; min-height: 200px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+      <div style="font-size: 60px;">🐶</div>
+      <div style="margin-top: 12px; background: white; border-radius: 16px; padding: 8px 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); font-size: 13px; color: #888;">study · 学习</div>
+      <div style="display: flex; gap: 8px; margin-top: 12px;">
+        <div style="width: 48px; height: 48px; background: #fff; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px;">📖</div>
+        <div style="width: 48px; height: 48px; background: #fff; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🔍</div>
+        <div style="width: 48px; height: 48px; background: #fff; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🦴</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — 柔和纸雕风</h3>
+      <p>奶油色纸质感，像一本可爱的笔记本 + 贴纸。圆润卡片、柔和阴影、手写感字体点缀。温和不刺眼，适合长时间学习。</p>
+      <div style="margin-top: 8px; display: flex; gap: 6px;">
+        <span style="background:#fef9ef; padding:2px 8px; border-radius:8px; font-size:11px;">#FEF9EF 奶油</span>
+        <span style="background:#fce4ec; padding:2px 8px; border-radius:8px; font-size:11px;">#FCE4EC 粉</span>
+        <span style="background:#e8eaf6; padding:2px 8px; border-radius:8px; font-size:11px;">#E8EAF6 紫</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="game" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #a8e6cf 0%, #ffd3b6 40%, #dcedc1 100%); padding: 36px 20px; min-height: 200px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+      <div style="font-size: 60px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));">🐕</div>
+      <div style="margin-top: 12px; background: rgba(255,255,255,0.85); border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 700; color: #5a8f3d; backdrop-filter: blur(4px);">Lv.12 · 旺财</div>
+      <div style="display: flex; gap: 8px; margin-top: 8px;">
+        <div style="width: 50px; height: 8px; background: rgba(255,255,255,0.7); border-radius: 4px; overflow: hidden;"><div style="width:70%;height:100%;background:#ff8a65;border-radius:4px;"></div></div>
+        <span style="font-size: 10px; color: #666;">❤️ 85</span>
+      </div>
+      <div style="display: flex; gap: 4px; margin-top: 8px;">
+        <span style="background:rgba(255,255,255,0.8); padding:2px 10px; border-radius:12px; font-size:11px;">🦴 +5</span>
+        <span style="background:rgba(255,255,255,0.8); padding:2px 10px; border-radius:12px; font-size:11px;">⭐ +10</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — 清新游戏风</h3>
+      <p>类似《旅行青蛙》《猫咪后院》的明亮游戏感。绿色草地 + 蓝天渐变、等级条、经验值浮动。小狗在画面中互动，养成感强。</p>
+      <div style="margin-top: 8px; display: flex; gap: 6px;">
+        <span style="background:#a8e6cf; padding:2px 8px; border-radius:8px; font-size:11px;">#A8E6CF 草绿</span>
+        <span style="background:#ffd3b6; padding:2px 8px; border-radius:8px; font-size:11px;">#FFD3B6 暖橘</span>
+        <span style="background:#dcedc1; padding:2px 8px; border-radius:8px; font-size:11px;">#DCEDC1 嫩绿</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="cartoon" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 30%, #ffccbc 70%, #fff9c4 100%); padding: 36px 20px; min-height: 200px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+      <div style="font-size: 64px; transform: rotate(-5deg);">🐶</div>
+      <div style="margin-top: 10px; background: white; border: 3px solid #ffcc80; border-radius: 24px; padding: 8px 20px; font-size: 14px; font-weight: 800; color: #e65100; box-shadow: 3px 3px 0 #ffcc80;">WOOF WOOF!</div>
+      <div style="display: flex; gap: 6px; margin-top: 10px;">
+        <div style="width: 36px; height: 36px; background: #ff8a65; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 2px 2px 0 #bf5a36;">📚</div>
+        <div style="width: 36px; height: 36px; background: #ffb74d; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 2px 2px 0 #bf8339;">🎯</div>
+        <div style="width: 36px; height: 36px; background: #ffd54f; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 2px 2px 0 #bfa135;">🦴</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — 卡通糖果风</h3>
+      <p>粗边框、立体按钮、泡泡字体、高饱和暖色。像儿童绘本或糖果包装，最"幼稚可爱"的方向。小狗形象更Q版、更夸张。</p>
+      <div style="margin-top: 8px; display: flex; gap: 6px;">
+        <span style="background:#fff3e0; padding:2px 8px; border-radius:8px; font-size:11px;">#FFF3E0 暖白</span>
+        <span style="background:#ffccbc; padding:2px 8px; border-radius:8px; font-size:11px;">#FFCCBC 蜜桃</span>
+        <span style="background:#fff9c4; padding:2px 8px; border-radius:8px; font-size:11px;">#FFF9C4 奶黄</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="hybrid" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #f5f0e8 0%, #ede7f6 50%, #e3f2fd 100%); padding: 36px 20px; min-height: 200px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+      <div style="display: flex; gap: 16px; align-items: flex-end;">
+        <div style="text-align: center;">
+          <div style="font-size: 48px;">🐶</div>
+          <div style="font-size: 10px; color: #999; margin-top: 2px;">宠物区</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 54px; height: 64px; background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center;">
+            <span style="font-size: 24px;">📖</span>
+          </div>
+          <div style="font-size: 10px; color: #999; margin-top: 2px;">学习区</div>
+        </div>
+      </div>
+      <div style="margin-top: 10px; background: white; border-radius: 10px; padding: 6px 14px; font-size: 11px; color: #666; box-shadow: 0 1px 6px rgba(0,0,0,0.05);">学习换狗粮 🦴</div>
+    </div>
+    <div class="card-body">
+      <h3>D — 适度可爱风 (推荐)</h3>
+      <p>B + A 的折中。学习区保持简洁干净的纸质感（不干扰注意力），宠物区切换到明亮活泼的游戏感。两区用统一暖色系串联，既可爱又不幼稚。</p>
+      <div style="margin-top: 8px; display: flex; gap: 6px;">
+        <span style="background:#f5f0e8; padding:2px 8px; border-radius:8px; font-size:11px;">#F5F0E8 暖灰</span>
+        <span style="background:#ede7f6; padding:2px 8px; border-radius:8px; font-size:11px;">#EDE7F6 淡紫</span>
+        <span style="background:#e3f2fd; padding:2px 8px; border-radius:8px; font-size:11px;">#E3F2FD 淡蓝</span>
+      </div>
+    </div>
+  </div>
+</div>

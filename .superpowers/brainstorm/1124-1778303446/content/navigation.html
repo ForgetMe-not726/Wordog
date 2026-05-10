@@ -1,0 +1,101 @@
+<h2>主界面导航布局</h2>
+<p class="subtitle">小狗养成 + 背单词，两者的主次关系和导航方式怎么安排？</p>
+
+<div class="cards">
+  <div class="card" data-choice="home-pet" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(180deg, #87CEEB 0%, #b8e6b8 60%, #8BC34A 100%); padding: 24px 16px; min-height: 260px; position: relative;">
+      <div style="text-align: center;">
+        <div style="font-size: 80px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12)); margin-top: 20px;">🐶</div>
+        <div style="background: rgba(255,255,255,0.9); border-radius: 16px; padding: 6px 16px; display: inline-block; margin-top: 6px; font-weight: 700; color: #5a8f3d;">旺财 Lv.12</div>
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 6px;">
+          <div style="background: rgba(255,255,255,0.85); border-radius: 12px; padding: 4px 12px; font-size: 11px;">🦴 狗粮: 120</div>
+          <div style="background: rgba(255,255,255,0.85); border-radius: 12px; padding: 4px 12px; font-size: 11px;">❤️ 心情: 85</div>
+        </div>
+      </div>
+      <div style="position: absolute; bottom: 8px; left: 12px; right: 12px; display: flex; gap: 6px;">
+        <div style="flex:1; background: rgba(255,255,255,0.9); border-radius: 10px; padding: 6px; text-align: center; font-size: 11px;">🏠 家</div>
+        <div style="flex:1; background: rgba(255,255,255,0.7); border-radius: 10px; padding: 6px; text-align: center; font-size: 11px;">📖 学习</div>
+        <div style="flex:1; background: rgba(255,255,255,0.7); border-radius: 10px; padding: 6px; text-align: center; font-size: 11px;">📊 统计</div>
+        <div style="flex:1; background: rgba(255,255,255,0.7); border-radius: 10px; padding: 6px; text-align: center; font-size: 11px;">👤 我的</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — 宠物首页</h3>
+      <p>打开 App 就是小狗的家。小狗在前景玩耍互动，学习入口在底部导航。宠物陪伴感最强，像《旅行青蛙》进门先看蛙。</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>差异化极强，打开就是小狗</li><li>情感连接最强</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>学习需要多点一步</li><li>实用型用户可能觉得绕</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="home-learn" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(180deg, #e8f5e9 0%, #f1f8e9 100%); padding: 16px 12px; min-height: 260px; display: flex; flex-direction: column; gap: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-weight:700; font-size:14px; color:#333;">今日学习</span>
+        <span style="background:#fff; border-radius:20px; padding:3px 10px; font-size:11px;">🐶 旺财 Lv.12</span>
+      </div>
+      <div style="background:white; border-radius:14px; padding:14px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <div style="font-size:12px; color:#999;">📋 今日待复习</div>
+        <div style="font-size:28px; font-weight:700; color:#43A047;">24 词</div>
+        <div style="margin-top:6px; height:6px; background:#e0e0e0; border-radius:3px;"><div style="width:30%;height:100%;background:#43A047;border-radius:3px;"></div></div>
+      </div>
+      <div style="background:white; border-radius:14px; padding:14px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <div style="font-size:12px; color:#999;">🆕 新词学习</div>
+        <div style="font-size:28px; font-weight:700; color:#FF7043;">10 词/天</div>
+      </div>
+      <div style="background:white; border-radius:14px; padding:10px 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 8px;">
+        <span style="font-size:24px;">🐕</span>
+        <div style="flex:1;">
+          <div style="font-size:11px; color:#999;">小狗能量</div>
+          <div style="height:5px; background:#e0e0e0; border-radius:3px;"><div style="width:60%;height:100%;background:#FFB74D;border-radius:3px;"></div></div>
+        </div>
+        <span style="font-size:11px; font-weight:700;">🦴 120</span>
+      </div>
+      <div style="display: flex; gap: 6px; margin-top: auto;">
+        <div style="flex:1; background:white; border-radius:10px; padding:6px; text-align: center; font-size:11px;">📖 学习</div>
+        <div style="flex:1; background:white; border-radius:10px; padding:6px; text-align: center; font-size:11px;">🔍 查词</div>
+        <div style="flex:1; background:#43A047; border-radius:10px; padding:6px; text-align: center; font-size:11px; color:white;">🏠 家</div>
+        <div style="flex:1; background:white; border-radius:10px; padding:6px; text-align: center; font-size:11px;">👤 我的</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — 学习首页 + 小狗挂件</h3>
+      <p>首页 = 今日学习仪表盘。小狗以小挂件/Widget 形式嵌入页面（像桌面宠物），展示状态但不占据主导。学习效率优先。</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>学习效率高，一步到位</li><li>兼顾宠物存在感</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>宠物比较边缘化</li><li>差异化不如 A 明显</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="home-tabs" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(180deg, #e8f5e9 0%, #f5f5f5 100%); padding: 16px 10px; min-height: 260px; display: flex; flex-direction: column;">
+      <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+        <div style="flex:1; background:#43A047; color:white; border-radius:10px; padding:6px; text-align:center; font-size:11px; font-weight:600;">🏠 小狗</div>
+        <div style="flex:1; background:white; border-radius:10px; padding:6px; text-align:center; font-size:11px;">📖 学习</div>
+      </div>
+      <div style="flex:1; background: linear-gradient(180deg, #87CEEB 0%, #a5d6a7 70%); border-radius:16px; display:flex; align-items:center; justify-content:center; flex-direction: column;">
+        <div style="font-size:70px;">🐶</div>
+        <div style="background:white; border-radius:12px; padding:4px 12px; font-size:11px; font-weight:700;">Lv.12 旺财</div>
+        <div style="display:flex; gap:12px; margin-top:6px;">
+          <span style="font-size:10px;">🦴 120</span>
+          <span style="font-size:10px;">❤️ 85</span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 6px; margin-top: 8px;">
+        <div style="flex:1; background:white; border-radius:10px; padding:6px; text-align: center; font-size:11px;">🔍 查词</div>
+        <div style="flex:1; background:white; border-radius:10px; padding:6px; text-align: center; font-size:11px;">📊 统计</div>
+        <div style="flex:1; background:white; border-radius:10px; padding:6px; text-align: center; font-size:11px;">👤 我的</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — 顶部切换：小狗 / 学习</h3>
+      <p>顶部两个 Tab 平级切换，各占一个完整视图。小狗区和学习区面积相等、内容完整。功能区的查词/统计/我的放底部。</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>两个核心功能都完整</li><li>切换清晰不冲突</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>次导航 + 底部导航层级多</li><li>宠物和学习割裂</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>

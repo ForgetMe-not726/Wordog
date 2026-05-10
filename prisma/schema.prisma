@@ -1,0 +1,245 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ── 枚举 ──
+
+enum UserWordStatus {
+  learning
+  review
+  mastered
+}
+
+enum AccessoryType {
+  hat
+  scarf
+  glasses
+  collar
+  bow
+}
+
+// ── 认证（NextAuth v5） ──
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  dog             Dog?
+  userWords       UserWord[]
+  studyRecords    StudyRecord[]
+  customWordBooks CustomWordBook[]
+  checkIns        CheckIn[]
+  accounts        Account[]
+  sessions        Session[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ── 词书 ──
+
+model WordBook {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+  wordCount   Int     @default(0)
+
+  words Word[]
+}
+
+model Word {
+  id          String  @id @default(cuid())
+  word        String
+  phonetic    String?
+  meaning     String
+  example     String?
+  synonyms    String?
+  antonyms    String?
+  confusables String?
+  derivatives String?
+  wordBookId  String
+
+  wordBook     WordBook      @relation(fields: [wordBookId], references: [id], onDelete: Cascade)
+  userWords    UserWord[]
+  studyRecords StudyRecord[]
+
+  @@unique([word, wordBookId])
+}
+
+// ── 用户单词学习进度 ──
+
+/// 用户对每个单词的学习进度。round 1=选词意 2/3=认识判断，3轮通过后进入复习队列。
+model UserWord {
+  id           String         @id @default(cuid())
+  userId       String
+  wordId       String
+  round        Int            @default(1)
+  status       UserWordStatus @default(learning)
+  nextReviewAt DateTime?
+  reviewStage  Int            @default(0)
+  learnedAt    DateTime?
+  createdAt    DateTime       @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  word Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, wordId])
+  @@index([userId, status])
+  @@index([userId, nextReviewAt])
+}
+
+// ── 学习记录（每次学习/复习的日志） ──
+
+model StudyRecord {
+  id        String   @id @default(cuid())
+  userId    String
+  wordId    String
+  round     Int
+  correct   Boolean
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  word Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([wordId])
+}
+
+// ── 每日打卡 ──
+
+/// 每日打卡记录。连续天数由查询时实时计算，不存储冗余值。
+model CheckIn {
+  id        String   @id @default(cuid())
+  userId    String
+  date      DateTime @db.Date
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+}
+
+// ── 小狗 ──
+
+model DogBreed {
+  id         String  @id @default(cuid())
+  name       String  @unique
+  imageUrl   String
+  unlockCost Int
+  isDefault  Boolean @default(false)
+
+  dogs Dog[]
+
+  @@index([isDefault])
+}
+
+/// 用户的小狗。foodCurrency(狗粮货币)通过学习赚取，用于喂食/买装扮/解锁品种。
+/// fullness(饱腹度)每天消耗，mood(心情)受连续学习影响。
+model Dog {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  breedId      String
+  name         String
+  foodCurrency Int      @default(30)
+  fullness     Int      @default(80)
+  mood         Int      @default(80)
+  createdAt    DateTime @default(now())
+
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  breed       DogBreed       @relation(fields: [breedId], references: [id])
+  accessories DogAccessory[]
+}
+
+// ── 装扮 ──
+
+model Accessory {
+  id       String        @id @default(cuid())
+  name     String
+  type     AccessoryType
+  imageUrl String
+  price    Int
+
+  dogAccessories DogAccessory[]
+}
+
+model DogAccessory {
+  id          String   @id @default(cuid())
+  dogId       String
+  accessoryId String
+  equipped    Boolean  @default(false)
+  purchasedAt DateTime @default(now())
+
+  dog       Dog       @relation(fields: [dogId], references: [id], onDelete: Cascade)
+  accessory Accessory @relation(fields: [accessoryId], references: [id])
+
+  @@unique([dogId, accessoryId])
+}
+
+// ── 自建词库 ──
+
+model CustomWordBook {
+  id     String @id @default(cuid())
+  userId String
+  name   String
+
+  user  User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  words CustomWord[]
+
+  @@index([userId])
+}
+
+model CustomWord {
+  id         String  @id @default(cuid())
+  wordBookId String
+  word       String
+  phonetic   String?
+  meaning    String
+  example    String?
+
+  wordBook CustomWordBook @relation(fields: [wordBookId], references: [id], onDelete: Cascade)
+
+  @@unique([wordBookId, word])
+}
