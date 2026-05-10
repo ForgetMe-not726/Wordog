@@ -180,14 +180,15 @@ model DogBreed {
 /// 用户的小狗。foodCurrency(狗粮货币)通过学习赚取，用于喂食/买装扮/解锁品种。
 /// fullness(饱腹度)每天消耗，mood(心情)受连续学习影响。
 model Dog {
-  id           String   @id @default(cuid())
-  userId       String   @unique
-  breedId      String
-  name         String
-  foodCurrency Int      @default(30)
-  fullness     Int      @default(80)
-  mood         Int      @default(80)
-  createdAt    DateTime @default(now())
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  breedId           String
+  name              String
+  foodCurrency      Int      @default(30)
+  fullness          Int      @default(80)
+  mood              Int      @default(80)
+  fullnessUpdatedAt DateTime @default(now())
+  createdAt         DateTime @default(now())
 
   user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   breed       DogBreed       @relation(fields: [breedId], references: [id])

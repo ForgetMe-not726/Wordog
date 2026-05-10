@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getNextReviewStage, getNextReviewDate } from "@/lib/ebbinghaus";
+import { learnAnswerSchema } from "@/lib/validations";
 
 const SESSION_SIZE = 10;
 
@@ -89,7 +90,12 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const userId = session.user.id;
-  const { wordId, round, correct } = await request.json();
+  const body = await request.json();
+  const parsed = learnAnswerSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
+  const { wordId, round, correct } = parsed.data;
 
   const userWord = await prisma.userWord.findUnique({
     where: {

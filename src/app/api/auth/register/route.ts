@@ -1,17 +1,20 @@
 import { NextResponse } from "next/server";
 import { hash } from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { registerSchema } from "@/lib/validations";
 
 export async function POST(request: Request) {
   try {
-    const { name, email, password, dogName } = await request.json();
-
-    if (!email || !password || !dogName) {
+    const body = await request.json();
+    const parsed = registerSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "Please fill in all required fields" },
+        { error: parsed.error.issues[0].message },
         { status: 400 },
       );
     }
+
+    const { name, email, password, dogName } = parsed.data;
 
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
@@ -48,8 +51,7 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ userId: user.id }, { status: 201 });
-  } catch (error) {
-    console.error("Registration error:", error);
+  } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

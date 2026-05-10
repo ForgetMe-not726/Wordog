@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getNextReviewStage, getNextReviewDate } from "@/lib/ebbinghaus";
+import { reviewAnswerSchema } from "@/lib/validations";
 
 // GET: Get words due for review
 export async function GET() {
@@ -42,7 +43,12 @@ export async function PUT(request: Request) {
   if (!session?.user?.id)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { wordId, correct } = await request.json();
+  const body = await request.json();
+  const parsed = reviewAnswerSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
+  const { wordId, correct } = parsed.data;
 
   const userWord = await prisma.userWord.findUnique({
     where: {
@@ -77,10 +83,10 @@ export async function PUT(request: Request) {
       });
     }
   } else {
-    // Reset to round 3 (meaning round in learning flow)
+    // Reset to round 1 (meaning choice) so the word re-enters the learning queue
     await prisma.userWord.update({
       where: { id: userWord.id },
-      data: { round: 3, status: "learning", reviewStage: 0, nextReviewAt: null },
+      data: { round: 1, status: "learning", reviewStage: 0, nextReviewAt: null },
     });
   }
 

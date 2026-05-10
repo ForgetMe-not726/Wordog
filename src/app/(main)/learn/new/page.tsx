@@ -58,27 +58,27 @@ export default function NewWordPage() {
   );
 
   const handleMeaningAnswer = useCallback(
-    (selected: string) => {
+    async (selected: string) => {
       const item = session[currentIndex];
       if (!item) return;
       const correct = selected === item.word.meaning;
       setCardWord(item.word);
       setCardCorrect(correct);
       setShowCard(true);
-      recordAnswer(item.word.id, 1, correct);
+      await recordAnswer(item.word.id, 1, correct);
     },
     [session, currentIndex, recordAnswer],
   );
 
   const handleKnowJudge = useCallback(
-    (know: boolean) => {
+    async (know: boolean) => {
       const item = session[currentIndex];
       if (!item) return;
       const roundNum = item.round === "know1" ? 2 : 3;
       setCardWord(item.word);
       setCardCorrect(know);
       setShowCard(true);
-      recordAnswer(item.word.id, roundNum, know);
+      await recordAnswer(item.word.id, roundNum, know);
     },
     [session, currentIndex, recordAnswer],
   );
