@@ -30,14 +30,14 @@ export default function WordCard({
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 bg-black/40 flex items-end justify-center z-50"
+        className="fixed inset-0 bg-black/40 flex items-end justify-center z-[60]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onDismiss}
       >
         <motion.div
-          className="bg-white rounded-t-3xl w-full max-h-[80vh] overflow-y-auto p-6 space-y-4"
+          className="bg-white rounded-t-3xl w-full max-h-[80vh] overflow-y-auto p-6 pb-8 space-y-4 mb-16"
           initial={{ y: "100%" }}
           animate={{ y: 0 }}
           exit={{ y: "100%" }}
