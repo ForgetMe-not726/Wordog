@@ -1,5 +1,7 @@
 "use client";
 
+import PronounceButton from "@/components/ui/PronounceButton";
+
 interface KnowJudgeProps {
   word: string;
   onJudge: (know: boolean) => void;
@@ -9,17 +11,7 @@ export default function KnowJudge({ word, onJudge }: KnowJudgeProps) {
   return (
     <div className="text-center space-y-6">
       <p className="text-3xl font-bold text-gray-800">{word}</p>
-      <button
-        onClick={() => {
-          const utterance = new SpeechSynthesisUtterance(word);
-          utterance.lang = "en-US";
-          speechSynthesis.speak(utterance);
-        }}
-        className="text-4xl"
-        aria-label="Pronounce"
-      >
-        {"🔊"}
-      </button>
+      <PronounceButton word={word} size="lg" />
       <div className="flex gap-4 justify-center">
         <button
           onClick={() => onJudge(false)}

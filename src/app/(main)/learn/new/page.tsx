@@ -26,6 +26,14 @@ interface QueueItem {
   round: Round;
 }
 
+const SPACING = {
+  meaning: 5,
+  know1: 8,
+  know2: 0,
+} as const;
+
+const WRONG_SPACING = 5;
+
 export default function NewWordPage() {
   const router = useRouter();
   const [session, setSession] = useState<QueueItem[]>([]);
@@ -35,6 +43,7 @@ export default function NewWordPage() {
   const [cardCorrect, setCardCorrect] = useState(true);
   const [loading, setLoading] = useState(true);
   const [done, setDone] = useState(false);
+  const [completedCount, setCompletedCount] = useState(0);
 
   useEffect(() => {
     fetch("/api/learn", { method: "POST" })
@@ -55,6 +64,14 @@ export default function NewWordPage() {
       });
     },
     [],
+  );
+
+  const insertIntoQueue = useCallback(
+    (queue: QueueItem[], item: QueueItem, offset: number) => {
+      const insertAt = Math.min(currentIndex + offset, queue.length);
+      queue.splice(insertAt, 0, item);
+    },
+    [currentIndex],
   );
 
   const handleMeaningAnswer = useCallback(
@@ -92,46 +109,35 @@ export default function NewWordPage() {
 
     const newSession = [...session];
 
-    if (item.round === "meaning") {
-      if (cardCorrect) {
-        newSession[currentIndex] = { ...item, round: "know1" };
+    // Remove current item from position
+    newSession.splice(currentIndex, 1);
+
+    if (cardCorrect) {
+      if (item.round === "meaning") {
+        // Round 1 correct → schedule know1 after spacing
+        insertIntoQueue(newSession, { ...item, round: "know1" }, SPACING.meaning);
+      } else if (item.round === "know1") {
+        // Round 2 correct → schedule know2 after spacing
+        insertIntoQueue(newSession, { ...item, round: "know2" }, SPACING.know1);
       } else {
-        newSession.splice(currentIndex, 1);
-        const insertAt = Math.min(currentIndex + 5, newSession.length);
-        newSession.splice(insertAt, 0, item);
+        // Round 3 correct → word learned, remove from queue
+        setCompletedCount((c) => c + 1);
       }
-    } else if (item.round === "know1") {
-      if (cardCorrect) {
-        newSession[currentIndex] = { ...item, round: "know2" };
-      } else {
-        newSession[currentIndex] = { ...item, round: "meaning" };
-      }
-    } else if (item.round === "know2") {
-      if (cardCorrect) {
-        newSession.splice(currentIndex, 1);
-      } else {
-        newSession[currentIndex] = { ...item, round: "meaning" };
-      }
+    } else {
+      // Wrong at any round → back to meaning, re-insert with spacing
+      insertIntoQueue(newSession, { ...item, round: "meaning" }, WRONG_SPACING);
     }
 
     setSession(newSession);
 
     if (newSession.length === 0) {
-      if (cardCorrect && item.round === "know2") {
-        setDone(true);
-      }
+      setDone(true);
       setCurrentIndex(0);
-    } else if (cardCorrect && item.round === "meaning") {
-      // Stay at same index (item was updated in place to know1)
-    } else if (cardCorrect && item.round === "know1") {
-      // Stay at same index (item was updated in place to know2)
-    } else if (cardCorrect && item.round === "know2") {
-      // Item removed, next word slides into current position, stay
     } else {
-      // Wrong answer: advance to next word
-      setCurrentIndex(Math.min(currentIndex + 1, newSession.length - 1));
+      // Current index stays the same (next word slides into position)
+      setCurrentIndex(Math.min(currentIndex, newSession.length - 1));
     }
-  }, [session, currentIndex, cardCorrect]);
+  }, [session, currentIndex, cardCorrect, insertIntoQueue]);
 
   if (loading) {
     return (
@@ -145,11 +151,13 @@ export default function NewWordPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-green-50 p-4">
         <div className="text-center space-y-4">
-          <p className="text-4xl">{"🎉"}</p>
+          <p className="text-4xl">🎉</p>
           <p className="text-xl font-bold text-gray-800">
             Session Complete!
           </p>
-          <p className="text-gray-400">Great job! All words learned.</p>
+          <p className="text-gray-400">
+            {completedCount} words learned. Great job!
+          </p>
           <button
             onClick={() => router.push("/learn")}
             className="bg-green-500 text-white rounded-xl px-8 py-3 font-bold"
@@ -165,7 +173,7 @@ export default function NewWordPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-green-50 p-4">
         <div className="text-center space-y-4">
-          <p className="text-4xl">{"📚"}</p>
+          <p className="text-4xl">📚</p>
           <p className="text-xl font-bold text-gray-800">
             No new words available
           </p>
@@ -192,17 +200,24 @@ export default function NewWordPage() {
     );
   }
 
+  const roundLabel =
+    current.round === "meaning"
+      ? "Choose Meaning"
+      : current.round === "know1"
+        ? "Recall (1st)"
+        : "Recall (2nd)";
+
   return (
     <div className="min-h-screen bg-green-50 p-4 flex items-center justify-center">
       <div className="w-full max-w-md">
-        <p className="text-center text-sm text-gray-400 mb-4">
-          {currentIndex + 1} / {session.length}
-          {current.round === "meaning"
-            ? " · Choose Meaning"
-            : current.round === "know1"
-              ? " · Do You Know? (1/2)"
-              : " · Do You Know? (2/2)"}
-        </p>
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-sm text-gray-400">
+            {completedCount} learned
+          </p>
+          <p className="text-sm text-gray-400">
+            {currentIndex + 1} / {session.length} · {roundLabel}
+          </p>
+        </div>
 
         {current.round === "meaning" ? (
           <MeaningChoice

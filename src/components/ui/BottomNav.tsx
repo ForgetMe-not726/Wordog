@@ -4,32 +4,41 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const tabs = [
-  { href: "/home", label: "Home", icon: "\u{1F3E0}" },
-  { href: "/learn", label: "Learn", icon: "\u{1F4D6}" },
-  { href: "/stats", label: "Stats", icon: "\u{1F4CA}" },
-  { href: "/me", label: "Profile", icon: "\u{1F464}" },
+  { href: "/home", label: "首页", icon: "🐕" },
+  { href: "/learn", label: "学习", icon: "📖" },
+  { href: "/stats", label: "统计", icon: "📊" },
+  { href: "/me", label: "我的", icon: "🐾" },
 ];
 
 export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-2 z-50">
-      {tabs.map((tab) => {
-        const active = pathname.startsWith(tab.href);
-        return (
-          <Link
-            key={tab.href}
-            href={tab.href}
-            className={`flex flex-col items-center gap-1 px-3 py-1 rounded-xl transition-colors ${
-              active ? "text-green-600" : "text-gray-400"
-            }`}
-          >
-            <span className="text-xl">{tab.icon}</span>
-            <span className="text-xs font-medium">{tab.label}</span>
-          </Link>
-        );
-      })}
+    <nav className="fixed bottom-4 left-0 right-0 flex justify-center z-50 pointer-events-none">
+      <div className="bg-white/90 backdrop-blur-lg border border-green-100/50 rounded-2xl flex gap-1 px-2 py-2 shadow-lg shadow-green-200/30 pointer-events-auto">
+        {tabs.map((tab) => {
+          const active = pathname.startsWith(tab.href);
+          return (
+            <Link
+              key={tab.href}
+              href={tab.href}
+              className={`relative flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                active
+                  ? "bg-emerald-100 text-emerald-700 scale-105"
+                  : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+              }`}
+            >
+              {active && (
+                <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs scale-50">
+                  🦴
+                </span>
+              )}
+              <span className="text-lg">{tab.icon}</span>
+              <span className="text-xs">{tab.label}</span>
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }

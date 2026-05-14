@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import PronounceButton from "./PronounceButton";
 
 interface WordCardProps {
   word: string;
@@ -57,17 +58,9 @@ export default function WordCard({
           <div className="text-center">
             <p className="text-3xl font-bold text-gray-800">{word}</p>
             {phonetic && <p className="text-gray-400 mt-1">{phonetic}</p>}
-            <button
-              onClick={() => {
-                const utterance = new SpeechSynthesisUtterance(word);
-                utterance.lang = "en-US";
-                speechSynthesis.speak(utterance);
-              }}
-              className="mt-2 text-2xl"
-              aria-label="Pronounce"
-            >
-              🔊
-            </button>
+            <div className="mt-2">
+              <PronounceButton word={word} />
+            </div>
           </div>
 
           <p className="text-lg text-center text-gray-700 font-medium">

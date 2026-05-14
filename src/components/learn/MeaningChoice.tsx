@@ -1,5 +1,7 @@
 "use client";
 
+import PronounceButton from "@/components/ui/PronounceButton";
+
 interface MeaningChoiceProps {
   word: string;
   phonetic: string | null;
@@ -20,17 +22,7 @@ export default function MeaningChoice({
       <div className="text-center space-y-2">
         <p className="text-3xl font-bold text-gray-800">{word}</p>
         {phonetic && <p className="text-gray-400">{phonetic}</p>}
-        <button
-          onClick={() => {
-            const utterance = new SpeechSynthesisUtterance(word);
-            utterance.lang = "en-US";
-            speechSynthesis.speak(utterance);
-          }}
-          className="text-2xl"
-          aria-label="Pronounce"
-        >
-          {"🔊"}
-        </button>
+        <PronounceButton word={word} />
         {example && (
           <p className="text-gray-500 italic text-sm">{example}</p>
         )}

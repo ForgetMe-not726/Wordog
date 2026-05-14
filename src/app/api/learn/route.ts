@@ -62,15 +62,12 @@ export async function POST() {
       take: remaining,
     });
 
-    // Create UserWord records for new words
-    if (newWords.length > 0) {
-      await prisma.userWord.createMany({
-        data: newWords.map((w) => ({
-          userId,
-          wordId: w.id,
-          round: 1,
-          status: "learning" as const,
-        })),
+    // Create UserWord records for new words (upsert to avoid unique constraint errors)
+    for (const w of newWords) {
+      await prisma.userWord.upsert({
+        where: { userId_wordId: { userId, wordId: w.id } },
+        update: {},
+        create: { userId, wordId: w.id, round: 1, status: "learning" },
       });
     }
   }
