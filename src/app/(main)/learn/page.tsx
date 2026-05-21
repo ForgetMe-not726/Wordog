@@ -97,10 +97,15 @@ export default async function LearnPage() {
 
       {/* Word book progress */}
       <div>
-        <h2 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
-          <span>📚</span>
-          <span>词库进度</span>
-        </h2>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+            <span>📚</span>
+            <span>词库进度</span>
+          </h2>
+          <Link href="/wordbooks" className="text-xs text-green-500 font-bold">
+            + 自建词库
+          </Link>
+        </div>
         <WordBookList />
       </div>
     </div>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import DogDisplay from "@/components/dog/DogDisplay";
 import DogStatusBars from "@/components/dog/DogStatusBars";
 import WeatherWidget from "@/components/weather/WeatherWidget";
+import ShopDrawer from "@/components/shop/ShopDrawer";
 import Link from "next/link";
 
 interface DogState {
@@ -19,6 +20,7 @@ interface DogState {
 export default function DogHome() {
   const [dog, setDog] = useState<DogState | null>(null);
   const [feeding, setFeeding] = useState(false);
+  const [shopOpen, setShopOpen] = useState(false);
 
   async function refreshDog() {
     const r = await fetch("/api/dog");
@@ -89,14 +91,28 @@ export default function DogHome() {
           <span>去学习赚粮</span>
         </Link>
 
-        <button
-          onClick={handleFeed}
-          disabled={feeding || dog.foodCurrency < 10}
-          className="w-full bg-amber-50 text-amber-700 rounded-2xl py-3 font-bold border border-amber-200 hover:bg-amber-100 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          🦴 喂食 (-10粮)
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={handleFeed}
+            disabled={feeding || dog.foodCurrency < 10}
+            className="flex-1 bg-amber-50 text-amber-700 rounded-2xl py-3 font-bold border border-amber-200 hover:bg-amber-100 transition-colors disabled:opacity-40 disabled:cursor-not-allowed text-sm"
+          >
+            🦴 喂食
+          </button>
+          <button
+            onClick={() => setShopOpen(true)}
+            className="flex-1 bg-purple-50 text-purple-600 rounded-2xl py-3 font-bold border border-purple-200 hover:bg-purple-100 transition-colors text-sm"
+          >
+            🏪 商店
+          </button>
+        </div>
       </div>
+
+      <ShopDrawer
+        open={shopOpen}
+        onClose={() => setShopOpen(false)}
+        onUpdate={refreshDog}
+      />
     </div>
   );
 }

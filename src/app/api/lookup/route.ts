@@ -19,7 +19,7 @@ const SYSTEM_PROMPT = `你是一个英汉词典API。给定一个英文单词，
 - word: 输入的单词
 - phonetic: 国际音标 (如 "/əˈbændən/")
 - meaning: 中文释义，带词性 (如 "vt. 放弃；抛弃")
-- example: 一句英文例句
+- example: 一句英文例句，后面跟中文翻译 (如 "He abandoned his plan. 他放弃了他的计划。")
 - synonyms: 最多5个同义词数组
 - antonyms: 最多5个反义词数组
 - confusables: 最多3个易混淆词数组 (形近或音近的词)
@@ -44,6 +44,9 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "DeepSeek API not configured" }, { status: 500 });
   }
 
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 30_000);
+
   try {
     const response = await fetch(DEEPSEEK_URL, {
       method: "POST",
@@ -60,11 +63,10 @@ export async function GET(request: Request) {
         temperature: 0.1,
         max_tokens: 1024,
       }),
+      signal: ctrl.signal,
     });
 
     if (!response.ok) {
-      const errText = await response.text();
-      console.error("DeepSeek API error:", response.status, errText);
       return NextResponse.json(
         { error: "DeepSeek API call failed" },
         { status: 502 },
@@ -92,11 +94,12 @@ export async function GET(request: Request) {
     result.derivatives = Array.isArray(result.derivatives) ? result.derivatives : [];
 
     return NextResponse.json(result);
-  } catch (e) {
-    console.error("Lookup error:", e);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
-    );
+  } catch {
+    if (ctrl.signal.aborted) {
+      return NextResponse.json({ error: "Request timeout" }, { status: 504 });
+    }
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  } finally {
+    clearTimeout(timer);
   }
 }

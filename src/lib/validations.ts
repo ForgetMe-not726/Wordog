@@ -19,7 +19,7 @@ export const reviewAnswerSchema = z.object({
 });
 
 export const dogActionSchema = z.object({
-  action: z.enum(["feed", "buy_accessory", "unlock_breed", "equip"]),
+  action: z.enum(["feed", "buy_accessory", "unlock_breed", "switch_breed", "equip"]),
   accessoryId: z.string().optional(),
   breedId: z.string().optional(),
 });

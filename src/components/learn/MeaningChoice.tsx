@@ -1,6 +1,7 @@
 "use client";
 
 import PronounceButton from "@/components/ui/PronounceButton";
+import { stripChinese } from "@/lib/text";
 
 interface MeaningChoiceProps {
   word: string;
@@ -24,7 +25,7 @@ export default function MeaningChoice({
         {phonetic && <p className="text-gray-400">{phonetic}</p>}
         <PronounceButton word={word} />
         {example && (
-          <p className="text-gray-500 italic text-sm">{example}</p>
+          <p className="text-gray-500 italic text-sm">{stripChinese(example)}</p>
         )}
       </div>
 

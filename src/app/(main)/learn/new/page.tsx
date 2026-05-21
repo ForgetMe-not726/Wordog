@@ -247,6 +247,8 @@ export default function NewWordPage() {
           derivatives={cardWord.derivatives}
           correct={cardCorrect}
           onDismiss={handleCardDismiss}
+          showAddToBook
+          wordId={cardWord.id}
         />
       )}
     </div>

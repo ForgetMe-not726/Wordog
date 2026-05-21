@@ -75,7 +75,7 @@ export default function DogStatusBars({
           label="心情"
           value={mood}
           max={100}
-          icon="💚"
+          icon="❤️"
           gradient="bg-gradient-to-r from-pink-300 to-rose-400"
         />
       </div>

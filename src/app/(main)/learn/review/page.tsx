@@ -25,6 +25,7 @@ export default function ReviewPage() {
   const [cardWord, setCardWord] = useState<ReviewWord | null>(null);
   const [cardCorrect, setCardCorrect] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [correctCount, setCorrectCount] = useState(0);
 
   useEffect(() => {
     fetch("/api/review")
@@ -43,6 +44,7 @@ export default function ReviewPage() {
       setCardWord(w);
       setCardCorrect(know);
       setShowCard(true);
+      if (know) setCorrectCount((c) => c + 1);
 
       await fetch("/api/review", {
         method: "PUT",
@@ -57,7 +59,7 @@ export default function ReviewPage() {
     setShowCard(false);
     setCardWord(null);
     if (index + 1 >= words.length) {
-      setWords([]); // Trigger done state
+      setWords([]);
     } else {
       setIndex((i) => i + 1);
     }
@@ -65,35 +67,46 @@ export default function ReviewPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-green-50">
-        <p className="text-gray-400">Loading...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-amber-50 to-orange-50">
+        <div className="w-8 h-8 border-3 border-amber-300 border-t-amber-500 rounded-full animate-spin" />
       </div>
     );
   }
 
-  if (words.length === 0) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-green-50">
-        <div className="text-center space-y-4">
-          <p className="text-4xl">✅</p>
-          <p className="text-xl font-bold text-gray-800">No reviews due</p>
-          <p className="text-gray-400">Come back later!</p>
-          <button onClick={() => router.push("/learn")} className="bg-green-500 text-white rounded-xl px-8 py-3 font-bold">
-            Back
-          </button>
+  if (words.length === 0 && !loading) {
+    if (index === 0) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-amber-50 to-orange-50 p-4">
+          <div className="text-center space-y-4 bg-white rounded-2xl p-8 shadow-sm max-w-sm w-full">
+            <p className="text-4xl">✅</p>
+            <p className="text-lg font-bold text-gray-800">暂无待复习</p>
+            <p className="text-gray-400 text-sm">还没有到复习时间的单词</p>
+            <button onClick={() => router.push("/learn")} className="bg-green-500 text-white rounded-xl px-8 py-3 font-bold w-full">
+              返回学习
+            </button>
+          </div>
         </div>
-      </div>
-    );
-  }
-
-  if (index >= words.length) {
+      );
+    }
+    // Just completed
+    const total = correctCount + (words.length || index);
     return (
-      <div className="min-h-screen flex items-center justify-center bg-green-50 p-4">
-        <div className="text-center space-y-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-amber-50 to-orange-50 p-4">
+        <div className="text-center space-y-4 bg-white rounded-2xl p-8 shadow-sm max-w-sm w-full">
           <p className="text-4xl">🎉</p>
-          <p className="text-xl font-bold text-gray-800">Review Complete!</p>
-          <button onClick={() => router.push("/learn")} className="bg-green-500 text-white rounded-xl px-8 py-3 font-bold">
-            Back to Learn
+          <p className="text-lg font-bold text-gray-800">复习完成</p>
+          <div className="flex justify-center gap-6">
+            <div>
+              <p className="text-2xl font-bold text-green-500">{correctCount}</p>
+              <p className="text-xs text-gray-400">认识</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-red-400">{index - correctCount}</p>
+              <p className="text-xs text-gray-400">不认识</p>
+            </div>
+          </div>
+          <button onClick={() => router.push("/learn")} className="bg-green-500 text-white rounded-xl px-8 py-3 font-bold w-full">
+            返回学习
           </button>
         </div>
       </div>
@@ -103,13 +116,22 @@ export default function ReviewPage() {
   const current = words[index];
 
   return (
-    <div className="min-h-screen bg-green-50 p-4 flex items-center justify-center">
-      <div className="w-full max-w-md">
-        <p className="text-center text-sm text-gray-400 mb-4">
-          Review {index + 1} / {words.length}
-        </p>
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 p-4 flex items-center justify-center">
+      <div className="w-full max-w-md space-y-4">
+        <div className="flex items-center justify-between text-sm text-gray-400">
+          <span>复习</span>
+          <span>{index + 1} / {words.length}</span>
+        </div>
+        <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-amber-300 to-orange-400 rounded-full transition-all duration-300"
+            style={{ width: `${(index / words.length) * 100}%` }}
+          />
+        </div>
+
         {current && <KnowJudge word={current.word} onJudge={handleJudge} />}
       </div>
+
       {showCard && cardWord && (
         <WordCard
           word={cardWord.word}
@@ -122,6 +144,8 @@ export default function ReviewPage() {
           derivatives={cardWord.derivatives}
           correct={cardCorrect}
           onDismiss={handleDismiss}
+          showAddToBook
+          wordId={cardWord.id}
         />
       )}
     </div>

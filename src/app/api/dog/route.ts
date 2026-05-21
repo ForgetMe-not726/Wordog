@@ -151,6 +151,21 @@ export async function PUT(request: Request) {
     }
   }
 
+  if (action === "switch_breed" && breedId) {
+    const breed = await prisma.dogBreed.findUnique({ where: { id: breedId } });
+    if (!breed)
+      return NextResponse.json({ error: "Breed not found" }, { status: 404 });
+    if (dog.breedId === breedId)
+      return NextResponse.json({ error: "Already this breed" }, { status: 400 });
+
+    const updated = await prisma.dog.update({
+      where: { id: dog.id },
+      data: { breedId },
+      include: { breed: true },
+    });
+    return NextResponse.json(updated);
+  }
+
   if (action === "equip" && accessoryId) {
     const owned = await prisma.dogAccessory.findUnique({
       where: { dogId_accessoryId: { dogId: dog.id, accessoryId } },
