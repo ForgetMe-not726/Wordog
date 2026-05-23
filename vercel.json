@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "src/app/api/**/*.ts": {
+      "regions": ["sin1", "hkg1"]
+    }
+  }
+}
