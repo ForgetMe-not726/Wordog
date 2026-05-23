@@ -49,7 +49,7 @@ export default function DogStatusBars({
   streak,
 }: DogStatusBarsProps) {
   return (
-    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-green-50">
+    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-3.5 shadow-sm border border-green-50">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2 bg-amber-50 rounded-full px-3 py-1">
           <span className="text-sm">🦴</span>

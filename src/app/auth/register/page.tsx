@@ -28,7 +28,7 @@ export default function RegisterPage() {
 
     if (!res.ok) {
       const data = await res.json();
-      setError(data.error || "Registration failed");
+      setError(data.error || "注册失败");
       setLoading(false);
       return;
     }
@@ -37,19 +37,55 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-green-50 px-4">
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md space-y-4">
-        <h1 className="text-2xl font-bold text-center text-green-800">Create Account</h1>
-        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-        <input name="name" placeholder="Nickname" required className="w-full border rounded-lg px-4 py-2" />
-        <input name="email" type="email" placeholder="Email" required className="w-full border rounded-lg px-4 py-2" />
-        <input name="password" type="password" placeholder="Password" required minLength={6} className="w-full border rounded-lg px-4 py-2" />
-        <input name="dogName" placeholder="Give your dog a name" required className="w-full border rounded-lg px-4 py-2" />
-        <button type="submit" disabled={loading} className="w-full bg-green-500 text-white rounded-lg py-2 font-bold disabled:opacity-50">
-          {loading ? "Creating..." : "Sign Up & Adopt a Dog"}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-100 via-green-50 to-amber-50/30 px-4">
+      <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-lg shadow-green-100/50 p-8 w-full max-w-sm space-y-4">
+        <div className="text-center space-y-1">
+          <p className="text-5xl">🐣</p>
+          <h1 className="text-xl font-bold text-gray-800">创建账号</h1>
+          <p className="text-sm text-gray-400">领养你的单词小狗</p>
+        </div>
+
+        {error && (
+          <p className="bg-red-50 text-red-500 text-sm text-center rounded-xl py-2">{error}</p>
+        )}
+
+        <input
+          name="name"
+          placeholder="昵称"
+          required
+          className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-gray-700 focus:border-green-400 focus:outline-none transition-colors"
+        />
+        <input
+          name="email"
+          type="email"
+          placeholder="邮箱"
+          required
+          className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-gray-700 focus:border-green-400 focus:outline-none transition-colors"
+        />
+        <input
+          name="password"
+          type="password"
+          placeholder="密码（至少6位）"
+          required
+          minLength={6}
+          className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-gray-700 focus:border-green-400 focus:outline-none transition-colors"
+        />
+        <input
+          name="dogName"
+          placeholder="给小狗起个名字"
+          required
+          className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-gray-700 focus:border-green-400 focus:outline-none transition-colors"
+        />
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-xl py-3 font-bold shadow-lg shadow-green-300/30 hover:shadow-xl hover:shadow-green-300/40 transition-all disabled:opacity-50 active:scale-95"
+        >
+          {loading ? "创建中..." : "注册并领养小狗"}
         </button>
-        <p className="text-center text-sm text-gray-500">
-          Already have an account? <Link href="/auth/login" className="text-green-600">Log in</Link>
+        <p className="text-center text-sm text-gray-400">
+          已有账号？{" "}
+          <Link href="/auth/login" className="text-green-500 font-bold">登录</Link>
         </p>
       </form>
     </div>

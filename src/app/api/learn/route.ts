@@ -6,6 +6,16 @@ import { learnAnswerSchema } from "@/lib/validations";
 
 const SESSION_SIZE = 10;
 
+async function autoCheckIn(userId: string) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  await prisma.checkIn.upsert({
+    where: { userId_date: { userId, date: today } },
+    update: {},
+    create: { userId, date: today },
+  });
+}
+
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -34,8 +44,7 @@ export async function POST() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const userId = session.user.id;
-
-  // Get words stuck at round 1 (meaning) first
+  await autoCheckIn(userId);
   const needMeaningRound = await prisma.userWord.findMany({
     where: {
       userId,
@@ -93,6 +102,8 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
   const { wordId, round, correct } = parsed.data;
+
+  await autoCheckIn(userId);
 
   const userWord = await prisma.userWord.findUnique({
     where: {

@@ -1,15 +1,10 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { AccessoryType } from "@/generated/prisma/client";
-import {
-  computeFullnessConsumption,
-  computeMoodChange,
-  computeStreak,
-} from "@/lib/dog";
+import { computeStreak } from "@/lib/dog";
 import { dogActionSchema } from "@/lib/validations";
 
-// GET: Get dog state with daily update
+// GET: Get dog state
 export async function GET() {
   const session = await auth();
   if (!session?.user?.id)
@@ -28,42 +23,26 @@ export async function GET() {
 
   if (!dog) return NextResponse.json({ error: "No dog found" }, { status: 404 });
 
-  const consumption = computeFullnessConsumption(dog.fullnessUpdatedAt);
-  const newFullness = Math.max(0, dog.fullness - consumption);
-
   const checkIns = await prisma.checkIn.findMany({
     where: { userId: session.user.id },
     select: { date: true },
     orderBy: { date: "desc" },
   });
   const streak = computeStreak(checkIns.map((c) => c.date));
-  const moodChange = computeMoodChange(streak, newFullness);
-  const newMood = Math.max(0, Math.min(100, dog.mood + moodChange));
-
-  if (newFullness !== dog.fullness || newMood !== dog.mood) {
-    await prisma.dog.update({
-      where: { id: dog.id },
-      data: {
-        fullness: newFullness,
-        mood: newMood,
-        fullnessUpdatedAt: new Date(),
-      },
-    });
-  }
 
   return NextResponse.json({
     id: dog.id,
     name: dog.name,
     breed: dog.breed,
     foodCurrency: dog.foodCurrency,
-    fullness: newFullness,
-    mood: newMood,
+    fullness: dog.fullness,
+    mood: dog.mood,
     equippedAccessories: dog.accessories.map((da) => da.accessory),
     streak,
   });
 }
 
-// PUT: Feed / buy accessory / unlock breed / equip
+// PUT: Feed / buy accessory / unlock breed / switch breed / equip
 export async function PUT(request: Request) {
   const session = await auth();
   if (!session?.user?.id)
@@ -87,7 +66,7 @@ export async function PUT(request: Request) {
         data: {
           foodCurrency: { decrement: 10 },
           fullness: Math.min(100, dog.fullness + 30),
-          fullnessUpdatedAt: new Date(),
+          mood: Math.min(100, dog.mood + 20),
         },
         include: { breed: true },
       });
@@ -121,7 +100,6 @@ export async function PUT(request: Request) {
       });
       return NextResponse.json(updated);
     } catch {
-      // Rollback accessory creation if balance insufficient
       await prisma.dogAccessory.delete({
         where: { dogId_accessoryId: { dogId: dog.id, accessoryId } },
       }).catch(() => {});

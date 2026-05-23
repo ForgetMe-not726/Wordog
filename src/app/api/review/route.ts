@@ -4,11 +4,23 @@ import { prisma } from "@/lib/prisma";
 import { getNextReviewStage, getNextReviewDate } from "@/lib/ebbinghaus";
 import { reviewAnswerSchema } from "@/lib/validations";
 
+async function autoCheckIn(userId: string) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  await prisma.checkIn.upsert({
+    where: { userId_date: { userId, date: today } },
+    update: {},
+    create: { userId, date: today },
+  });
+}
+
 // GET: Get words due for review
 export async function GET() {
   const session = await auth();
   if (!session?.user?.id)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  await autoCheckIn(session.user.id);
 
   const now = new Date();
   const dueWords = await prisma.userWord.findMany({
@@ -42,6 +54,8 @@ export async function PUT(request: Request) {
   const session = await auth();
   if (!session?.user?.id)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  await autoCheckIn(session.user.id);
 
   const body = await request.json();
   const parsed = reviewAnswerSchema.safeParse(body);
