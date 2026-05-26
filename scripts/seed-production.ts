@@ -26,9 +26,9 @@ async function main() {
 
   // Seed accessories
   const accessories = [
-    { id: "scarf-red", name: "Red Scarf", type: "scarf", imageUrl: "/accessories/red-scarf.png", price: 50 },
-    { id: "hat-cowboy", name: "Cowboy Hat", type: "hat", imageUrl: "/accessories/cowboy-hat.png", price: 80 },
-    { id: "glasses-round", name: "Round Glasses", type: "glasses", imageUrl: "/accessories/round-glasses.png", price: 60 },
+    { id: "scarf-red", name: "Red Scarf", type: "scarf" as const, imageUrl: "/accessories/red-scarf.png", price: 50 },
+    { id: "hat-cowboy", name: "Cowboy Hat", type: "hat" as const, imageUrl: "/accessories/cowboy-hat.png", price: 80 },
+    { id: "glasses-round", name: "Round Glasses", type: "glasses" as const, imageUrl: "/accessories/round-glasses.png", price: 60 },
   ];
   for (const a of accessories) {
     await prisma.accessory.upsert({ where: { id: a.id }, update: {}, create: a });
