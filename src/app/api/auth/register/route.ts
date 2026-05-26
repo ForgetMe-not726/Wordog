@@ -51,7 +51,8 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ userId: user.id }, { status: 201 });
-  } catch {
+  } catch (e) {
+    console.error("Register error:", e instanceof Error ? e.message : e);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
