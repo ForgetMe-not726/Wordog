@@ -4,11 +4,12 @@ import { Pool } from "pg";
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
+const dbUrl = process.env.DATABASE_URL!;
+const isCloud = dbUrl.includes("supabase") || dbUrl.includes("neon") || dbUrl.includes("aws");
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  connectionString: dbUrl,
+  ...(isCloud ? { ssl: { rejectUnauthorized: false } } : {}),
 });
 
 export const prisma =
