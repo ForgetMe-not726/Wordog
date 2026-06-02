@@ -66,7 +66,7 @@ export default function WordBookList() {
                 </p>
               )}
             </div>
-            <span className="text-lg font-bold text-green-500">
+            <span className="text-lg font-bold text-orange-500">
               {book.progress}%
             </span>
           </div>
@@ -78,7 +78,7 @@ export default function WordBookList() {
                 width: `${book.progress}%`,
                 background:
                   book.progress >= 80
-                    ? "#22c55e"
+                    ? "#F97316"
                     : book.progress >= 40
                       ? "#f59e0b"
                       : "#6366f1",

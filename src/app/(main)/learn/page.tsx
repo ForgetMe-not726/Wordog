@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getDueReviewsCount } from "@/lib/ebbinghaus";
 import Link from "next/link";
 import WordBookList from "./WordBookList";
+import WordBookSelector from "./WordBookSelector";
 
 const cards = [
   {
@@ -37,7 +38,7 @@ const cards = [
     title: "查词典",
     desc: "搜索任意单词",
     icon: "🔍",
-    color: "from-teal-400 to-green-500",
+    color: "from-teal-400 to-orange-500",
     bg: "bg-teal-50",
     shadow: "shadow-teal-200/30",
   },
@@ -57,10 +58,10 @@ export default async function LearnPage() {
     <div className="p-4 space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-gray-800">学习</h1>
-        <div className="bg-amber-50 rounded-full px-3 py-1 flex items-center gap-1.5">
+        <h1 className="text-xl font-bold text-orange-800 font-[family-name:var(--font-fredoka)]">学习</h1>
+        <div className="bg-orange-100 rounded-full px-3 py-1 flex items-center gap-1.5">
           <span className="text-sm">🦴</span>
-          <span className="text-xs font-bold text-amber-600">赚粮中</span>
+          <span className="text-xs font-bold text-orange-600">赚粮中</span>
         </div>
       </div>
 
@@ -97,12 +98,13 @@ export default async function LearnPage() {
 
       {/* Word book progress */}
       <div>
+        <WordBookSelector />
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
             <span>📚</span>
             <span>词库进度</span>
           </h2>
-          <Link href="/wordbooks" className="text-xs text-green-500 font-bold">
+          <Link href="/wordbooks" className="text-xs text-orange-500 font-bold">
             + 自建词库
           </Link>
         </div>

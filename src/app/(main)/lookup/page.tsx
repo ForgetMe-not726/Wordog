@@ -85,7 +85,7 @@ export default function LookupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-green-50 p-4">
+    <div className="min-h-screen bg-orange-50 p-4">
       <h1 className="text-xl font-bold text-gray-800 mb-4">查词典</h1>
 
       <form onSubmit={handleSubmit} className="relative z-20">
@@ -99,7 +99,7 @@ export default function LookupPage() {
                 if (suggestions.length > 0) setShowSuggestions(true);
               }}
               placeholder="输入英文单词..."
-              className="w-full bg-white rounded-xl px-4 py-3 text-gray-800 border-2 border-gray-200 focus:border-green-400 focus:outline-none transition-colors"
+              className="w-full bg-white rounded-xl px-4 py-3 text-gray-800 border-2 border-gray-200 focus:border-orange-400 focus:outline-none transition-colors"
               autoComplete="off"
               autoCapitalize="off"
               spellCheck={false}
@@ -112,7 +112,7 @@ export default function LookupPage() {
                     key={s}
                     type="button"
                     onClick={() => handleSuggestionClick(s)}
-                    className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-green-50 transition-colors border-b border-gray-50 last:border-0"
+                    className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-orange-50 transition-colors border-b border-gray-50 last:border-0"
                   >
                     {s}
                   </button>
@@ -124,7 +124,7 @@ export default function LookupPage() {
           <button
             type="submit"
             disabled={loading || !query.trim()}
-            className="bg-green-500 text-white rounded-xl px-5 py-3 font-bold hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-orange-500 text-white rounded-xl px-5 py-3 font-bold hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "..." : "搜索"}
           </button>
@@ -143,7 +143,7 @@ export default function LookupPage() {
 
       {loading && (
         <div className="mt-8 text-center">
-          <div className="inline-block w-8 h-8 border-3 border-green-300 border-t-green-500 rounded-full animate-spin" />
+          <div className="inline-block w-8 h-8 border-3 border-orange-300 border-t-orange-500 rounded-full animate-spin" />
           <p className="text-gray-400 mt-2 text-sm">查询中...</p>
         </div>
       )}

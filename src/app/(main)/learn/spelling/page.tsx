@@ -99,15 +99,15 @@ export default function SpellingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-100 to-green-50">
-        <div className="w-8 h-8 border-3 border-green-300 border-t-green-500 rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-orange-100 to-orange-50">
+        <div className="w-8 h-8 border-3 border-orange-300 border-t-orange-500 rounded-full animate-spin" />
       </div>
     );
   }
 
   if (!unlocked) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-green-100 to-green-50 p-4 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-orange-100 to-orange-50 p-4 flex items-center justify-center">
         <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 text-center space-y-4 max-w-sm">
           <p className="text-5xl">✍️</p>
           <p className="text-lg font-bold text-gray-800">拼写练习未解锁</p>
@@ -124,7 +124,7 @@ export default function SpellingPage() {
           </div>
           <button
             onClick={() => router.push("/learn")}
-            className="bg-green-500 text-white rounded-xl px-8 py-3 font-bold"
+            className="bg-orange-500 text-white rounded-xl px-8 py-3 font-bold"
           >
             去学习
           </button>
@@ -136,13 +136,13 @@ export default function SpellingPage() {
   if (done) {
     const accuracy = words.length > 0 ? Math.round((correctCount / words.length) * 100) : 0;
     return (
-      <div className="min-h-screen bg-gradient-to-b from-green-100 to-green-50 p-4 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-orange-100 to-orange-50 p-4 flex items-center justify-center">
         <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 text-center space-y-4 max-w-sm w-full">
           <p className="text-5xl">{accuracy >= 80 ? "🎉" : accuracy >= 50 ? "💪" : "📚"}</p>
           <p className="text-xl font-bold text-gray-800">拼写完成</p>
           <div className="flex justify-center gap-6 text-center">
             <div>
-              <p className="text-3xl font-bold text-green-500">{correctCount}</p>
+              <p className="text-3xl font-bold text-orange-500">{correctCount}</p>
               <p className="text-xs text-gray-400">正确</p>
             </div>
             <div>
@@ -156,7 +156,7 @@ export default function SpellingPage() {
           </div>
           <button
             onClick={() => router.push("/learn")}
-            className="bg-green-500 text-white rounded-xl px-8 py-3 font-bold w-full"
+            className="bg-orange-500 text-white rounded-xl px-8 py-3 font-bold w-full"
           >
             返回学习
           </button>
@@ -169,7 +169,7 @@ export default function SpellingPage() {
   if (!current) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-100 to-green-50 p-4 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-b from-orange-100 to-orange-50 p-4 flex items-center justify-center">
       <div className="w-full max-w-md space-y-6">
         <div className="flex items-center justify-between text-sm text-gray-400">
           <span>{currentIndex + 1} / {words.length}</span>
@@ -177,7 +177,7 @@ export default function SpellingPage() {
         </div>
         <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-green-300 to-emerald-400 rounded-full transition-all duration-300"
+            className="h-full bg-gradient-to-r from-orange-300 to-orange-400 rounded-full transition-all duration-300"
             style={{ width: `${(currentIndex / words.length) * 100}%` }}
           />
         </div>
@@ -216,10 +216,10 @@ export default function SpellingPage() {
               spellCheck={false}
               className={`w-full bg-white rounded-2xl px-5 py-4 text-lg text-gray-800 border-2 outline-none transition-colors text-center ${
                 feedback === "correct"
-                  ? "border-green-400 bg-green-50"
+                  ? "border-orange-400 bg-orange-50"
                   : feedback === "wrong"
                     ? "border-red-300 bg-red-50"
-                    : "border-gray-200 focus:border-green-400"
+                    : "border-gray-200 focus:border-orange-400"
               }`}
             />
             {feedback && (

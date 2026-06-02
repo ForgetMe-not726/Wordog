@@ -39,7 +39,7 @@ const moodConfig = (mood: number) => {
     } as TargetAndTransition,
     eyeEmoji: "😊",
     label: "开心",
-    glowColor: "bg-yellow-200/30",
+    glowColor: "bg-orange-200/30",
   };
   if (mood >= 30) return {
     animation: {
@@ -49,7 +49,7 @@ const moodConfig = (mood: number) => {
     } as TargetAndTransition,
     eyeEmoji: "😐",
     label: "平静",
-    glowColor: "bg-green-200/20",
+    glowColor: "bg-orange-100/20",
   };
   return {
     animation: {
@@ -59,7 +59,7 @@ const moodConfig = (mood: number) => {
     } as TargetAndTransition,
     eyeEmoji: "😢",
     label: "低落",
-    glowColor: "bg-blue-200/20",
+    glowColor: "bg-amber-100/20",
   };
 };
 

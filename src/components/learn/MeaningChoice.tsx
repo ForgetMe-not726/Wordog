@@ -34,7 +34,7 @@ export default function MeaningChoice({
           <button
             key={i}
             onClick={() => onAnswer(option)}
-            className="bg-white border-2 border-gray-200 hover:border-green-400 rounded-xl px-4 py-3 text-left text-gray-700 transition-colors"
+            className="bg-white border-2 border-gray-200 hover:border-orange-400 rounded-xl px-4 py-3 text-left text-gray-700 transition-colors"
           >
             {String.fromCharCode(65 + i)}. {option}
           </button>

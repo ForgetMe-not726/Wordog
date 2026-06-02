@@ -37,19 +37,32 @@ interface WordData {
   derivatives: string | null;
 }
 
-// POST: Start a new learning session. Returns up to 10 words with 4 options each.
-export async function POST() {
+// POST: Start a new learning session. Optional wordBookId in body.
+export async function POST(request: Request) {
   const session = await auth();
   if (!session?.user?.id)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const userId = session.user.id;
   await autoCheckIn(userId);
+
+  let wordBookId: string | null = null;
+  try {
+    const body = await request.json();
+    wordBookId = body.wordBookId || null;
+  } catch {
+    // No body or no wordBookId, use all books
+  }
+
+  const wordBookFilter = wordBookId ? { wordBookId } : {};
+
+  // Get words stuck at round 1 (meaning) first, filtered by book
   const needMeaningRound = await prisma.userWord.findMany({
     where: {
       userId,
       round: 1,
       status: "learning",
+      ...(wordBookId ? { word: { wordBookId } } : {}),
     },
     take: SESSION_SIZE,
     include: { word: true },
@@ -63,6 +76,7 @@ export async function POST() {
   if (remaining > 0) {
     newWords = await prisma.word.findMany({
       where: {
+        ...wordBookFilter,
         ...(existingWordIds.length > 0
           ? { id: { notIn: existingWordIds } }
           : {}),
@@ -71,7 +85,6 @@ export async function POST() {
       take: remaining,
     });
 
-    // Create UserWord records for new words (upsert to avoid unique constraint errors)
     for (const w of newWords) {
       await prisma.userWord.upsert({
         where: { userId_wordId: { userId, wordId: w.id } },
@@ -120,7 +133,6 @@ export async function PUT(request: Request) {
   });
 
   if (round === 3 && correct) {
-    // Word learned! Enter review queue at stage 1 (day 1)
     const nextStage = getNextReviewStage(0);
     await prisma.userWord.update({
       where: { id: userWord.id },
@@ -133,13 +145,11 @@ export async function PUT(request: Request) {
       },
     });
 
-    // Award food currency for learning a new word
     await prisma.dog.updateMany({
       where: { userId },
       data: { foodCurrency: { increment: 10 } },
     });
   } else if (!correct && (round === 2 || round === 3)) {
-    // Fall back to round 1
     await prisma.userWord.update({
       where: { id: userWord.id },
       data: { round: 1 },
@@ -154,11 +164,9 @@ export async function PUT(request: Request) {
   return NextResponse.json({ success: true });
 }
 
-// Helper: format words with 4 options (1 correct + 3 distractors)
 function formatWords(words: WordData[]) {
   return shuffle(
     words.map((w) => {
-      // Pick 3 other meanings as distractors
       const otherMeanings = words
         .filter((o) => o.id !== w.id && o.meaning !== w.meaning)
         .map((o) => o.meaning);

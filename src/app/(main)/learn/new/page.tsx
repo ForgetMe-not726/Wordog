@@ -46,7 +46,12 @@ export default function NewWordPage() {
   const [completedCount, setCompletedCount] = useState(0);
 
   useEffect(() => {
-    fetch("/api/learn", { method: "POST" })
+    const bookId = localStorage.getItem("selectedBookId") || null;
+    fetch("/api/learn", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bookId ? { wordBookId: bookId } : {}),
+    })
       .then((r) => r.json())
       .then((words: WordData[]) => {
         setSession(words.map((w) => ({ word: w, round: "meaning" as Round })));
@@ -141,7 +146,7 @@ export default function NewWordPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-green-50">
+      <div className="min-h-screen flex items-center justify-center bg-orange-50">
         <p className="text-gray-400">Loading...</p>
       </div>
     );
@@ -149,7 +154,7 @@ export default function NewWordPage() {
 
   if (done) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-green-50 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-orange-50 p-4">
         <div className="text-center space-y-4">
           <p className="text-4xl">🎉</p>
           <p className="text-xl font-bold text-gray-800">
@@ -160,7 +165,7 @@ export default function NewWordPage() {
           </p>
           <button
             onClick={() => router.push("/learn")}
-            className="bg-green-500 text-white rounded-xl px-8 py-3 font-bold"
+            className="bg-orange-500 text-white rounded-xl px-8 py-3 font-bold"
           >
             Back to Learn
           </button>
@@ -171,7 +176,7 @@ export default function NewWordPage() {
 
   if (session.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-green-50 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-orange-50 p-4">
         <div className="text-center space-y-4">
           <p className="text-4xl">📚</p>
           <p className="text-xl font-bold text-gray-800">
@@ -182,7 +187,7 @@ export default function NewWordPage() {
           </p>
           <button
             onClick={() => router.push("/learn")}
-            className="bg-green-500 text-white rounded-xl px-8 py-3 font-bold"
+            className="bg-orange-500 text-white rounded-xl px-8 py-3 font-bold"
           >
             Back
           </button>
@@ -194,7 +199,7 @@ export default function NewWordPage() {
   const current = session[currentIndex];
   if (!current) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-green-50">
+      <div className="min-h-screen flex items-center justify-center bg-orange-50">
         <p className="text-gray-400">Loading...</p>
       </div>
     );
@@ -208,7 +213,7 @@ export default function NewWordPage() {
         : "Recall (2nd)";
 
   return (
-    <div className="min-h-screen bg-green-50 p-4 flex items-center justify-center">
+    <div className="min-h-screen bg-orange-50 p-4 flex items-center justify-center">
       <div className="w-full max-w-md">
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-gray-400">

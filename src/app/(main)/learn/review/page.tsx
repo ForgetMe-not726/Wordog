@@ -81,7 +81,7 @@ export default function ReviewPage() {
             <p className="text-4xl">✅</p>
             <p className="text-lg font-bold text-gray-800">暂无待复习</p>
             <p className="text-gray-400 text-sm">还没有到复习时间的单词</p>
-            <button onClick={() => router.push("/learn")} className="bg-green-500 text-white rounded-xl px-8 py-3 font-bold w-full">
+            <button onClick={() => router.push("/learn")} className="bg-orange-500 text-white rounded-xl px-8 py-3 font-bold w-full">
               返回学习
             </button>
           </div>
@@ -97,7 +97,7 @@ export default function ReviewPage() {
           <p className="text-lg font-bold text-gray-800">复习完成</p>
           <div className="flex justify-center gap-6">
             <div>
-              <p className="text-2xl font-bold text-green-500">{correctCount}</p>
+              <p className="text-2xl font-bold text-orange-500">{correctCount}</p>
               <p className="text-xs text-gray-400">认识</p>
             </div>
             <div>
@@ -105,7 +105,7 @@ export default function ReviewPage() {
               <p className="text-xs text-gray-400">不认识</p>
             </div>
           </div>
-          <button onClick={() => router.push("/learn")} className="bg-green-500 text-white rounded-xl px-8 py-3 font-bold w-full">
+          <button onClick={() => router.push("/learn")} className="bg-orange-500 text-white rounded-xl px-8 py-3 font-bold w-full">
             返回学习
           </button>
         </div>

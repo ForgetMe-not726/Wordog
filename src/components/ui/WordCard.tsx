@@ -105,7 +105,7 @@ export default function WordCard({
 
           <div className="flex items-center justify-center gap-2 flex-wrap">
             {parsePos(meaning).pos && (
-              <span className="bg-emerald-50 text-emerald-600 text-xs font-bold px-2 py-0.5 rounded-full border border-emerald-200">
+              <span className="bg-orange-50 text-orange-600 text-xs font-bold px-2 py-0.5 rounded-full border border-orange-200">
                 {parsePos(meaning).pos}
               </span>
             )}
@@ -171,7 +171,7 @@ export default function WordCard({
 
           <button
             onClick={onDismiss}
-            className="w-full bg-green-500 text-white rounded-xl py-3 font-bold hover:bg-green-600 transition-colors sticky bottom-0"
+            className="w-full bg-orange-500 text-white rounded-xl py-3 font-bold hover:bg-orange-600 transition-colors sticky bottom-0"
           >
             知道了
           </button>

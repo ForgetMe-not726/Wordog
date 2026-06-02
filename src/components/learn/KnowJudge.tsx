@@ -21,7 +21,7 @@ export default function KnowJudge({ word, onJudge }: KnowJudgeProps) {
         </button>
         <button
           onClick={() => onJudge(true)}
-          className="bg-green-100 text-green-600 rounded-xl px-8 py-4 font-bold text-lg hover:bg-green-200 transition-colors"
+          className="bg-orange-100 text-orange-600 rounded-xl px-8 py-4 font-bold text-lg hover:bg-orange-200 transition-colors"
         >
           Know
         </button>

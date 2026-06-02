@@ -81,8 +81,8 @@ export default function CustomWordBooksPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-100 to-green-50">
-        <div className="w-8 h-8 border-3 border-green-300 border-t-green-500 rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-orange-100 to-orange-50">
+        <div className="w-8 h-8 border-3 border-orange-300 border-t-orange-500 rounded-full animate-spin" />
       </div>
     );
   }
@@ -91,7 +91,7 @@ export default function CustomWordBooksPage() {
     <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-gray-800">自建词库</h1>
-        <Link href="/learn" className="text-sm text-green-500 font-bold">
+        <Link href="/learn" className="text-sm text-orange-500 font-bold">
           返回学习
         </Link>
       </div>
@@ -105,13 +105,13 @@ export default function CustomWordBooksPage() {
             value={newBookName}
             onChange={(e) => setNewBookName(e.target.value)}
             placeholder="词库名称..."
-            className="flex-1 bg-gray-50 rounded-xl px-3 py-2.5 text-sm text-gray-700 border border-gray-100 focus:border-green-400 focus:outline-none"
+            className="flex-1 bg-gray-50 rounded-xl px-3 py-2.5 text-sm text-gray-700 border border-gray-100 focus:border-orange-400 focus:outline-none"
             onKeyDown={(e) => e.key === "Enter" && createBook()}
           />
           <button
             onClick={createBook}
             disabled={adding || !newBookName.trim()}
-            className="bg-green-500 text-white rounded-xl px-4 py-2.5 text-sm font-bold disabled:opacity-50"
+            className="bg-orange-500 text-white rounded-xl px-4 py-2.5 text-sm font-bold disabled:opacity-50"
           >
             创建
           </button>
@@ -131,7 +131,7 @@ export default function CustomWordBooksPage() {
               <button
                 onClick={() => setSelectedBook(selectedBook === b.id ? null : b.id)}
                 className={`w-full bg-white rounded-2xl p-4 shadow-sm border text-left ${
-                  selectedBook === b.id ? "border-green-300" : "border-gray-50"
+                  selectedBook === b.id ? "border-orange-300" : "border-gray-50"
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -172,14 +172,14 @@ export default function CustomWordBooksPage() {
                             <div className="flex-1 min-w-0">
                               <span className="font-bold text-gray-700">{w.word}</span>
                               {pos && (
-                                <span className="text-emerald-500 text-[10px] ml-1.5">{pos}</span>
+                                <span className="text-orange-500 text-[10px] ml-1.5">{pos}</span>
                               )}
                               <span className="text-gray-500 ml-1.5 text-xs truncate">{text}</span>
                             </div>
                             <div className="flex items-center gap-1 shrink-0">
                               <button
                                 onClick={() => setCardWord(w)}
-                                className="text-xs bg-green-50 text-green-600 rounded-lg px-2 py-1 font-bold hover:bg-green-100"
+                                className="text-xs bg-orange-50 text-orange-600 rounded-lg px-2 py-1 font-bold hover:bg-orange-100"
                               >
                                 查看
                               </button>

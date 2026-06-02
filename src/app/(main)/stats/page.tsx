@@ -60,19 +60,19 @@ export default function StatsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-100 to-green-50">
-        <div className="w-8 h-8 border-3 border-green-300 border-t-green-500 rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-orange-100 to-orange-50">
+        <div className="w-8 h-8 border-3 border-orange-300 border-t-orange-500 rounded-full animate-spin" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-100 to-green-50 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-orange-100 to-orange-50 p-4">
         <div className="text-center space-y-3">
           <p className="text-4xl">😿</p>
           <p className="text-gray-500 text-sm">加载失败</p>
-          <button onClick={fetchStats} className="bg-green-500 text-white rounded-xl px-6 py-2 text-sm font-bold">
+          <button onClick={fetchStats} className="bg-orange-500 text-white rounded-xl px-6 py-2 text-sm font-bold">
             重试
           </button>
         </div>
@@ -108,7 +108,7 @@ export default function StatsPage() {
         </div>
         <div className="bg-white rounded-2xl p-3 shadow-sm border border-gray-50 text-center">
           <p className="text-[11px] text-gray-400 mb-0.5">今日学习</p>
-          <p className="text-2xl font-bold text-green-500">{s?.todayTotal ?? 0}</p>
+          <p className="text-2xl font-bold text-orange-500">{s?.todayTotal ?? 0}</p>
           <p className="text-[10px] text-gray-300">{s?.todayLearned ?? 0} 新 · {s?.todayReview ?? 0} 复</p>
         </div>
       </div>
@@ -138,7 +138,7 @@ export default function StatsPage() {
               <div key={i} className="w-5 h-5 flex items-center justify-center">
                 {cell.inMonth && (
                   <span className={`inline-flex items-center justify-center w-[22px] h-[22px] rounded-full text-[11px] ${
-                    cell.checked ? "bg-emerald-400 text-white"
+                    cell.checked ? "bg-orange-400 text-white"
                     : cell.isToday ? "bg-amber-100 text-amber-700"
                     : "text-gray-500"
                   }`}>
@@ -154,7 +154,7 @@ export default function StatsPage() {
         <div className="flex-1 space-y-2">
           <div className="bg-white rounded-2xl p-3 shadow-sm border border-gray-50 flex items-center justify-between">
             <span className="text-xs text-gray-500">📚 已学词汇</span>
-            <span className="text-lg font-bold text-emerald-500">{s?.learnedWords ?? 0}</span>
+            <span className="text-lg font-bold text-orange-500">{s?.learnedWords ?? 0}</span>
           </div>
           <div className="bg-white rounded-2xl p-3 shadow-sm border border-gray-50 flex items-center justify-between">
             <span className="text-xs text-gray-500">📝 复习中</span>
@@ -174,7 +174,7 @@ export default function StatsPage() {
               </span>
             </div>
             <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-green-300 to-emerald-400 rounded-full transition-all duration-700"
+              <div className="h-full bg-gradient-to-r from-orange-300 to-orange-400 rounded-full transition-all duration-700"
                 style={{ width: `${s && s.totalEngaged > 0 ? Math.round((s.learnedWords / Math.max(s.totalEngaged, 1)) * 100) : 0}%` }} />
             </div>
           </div>

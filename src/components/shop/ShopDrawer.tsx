@@ -132,9 +132,9 @@ export default function ShopDrawer({ open, onClose, onUpdate }: Props) {
                       }}
                       className={`shrink-0 w-24 rounded-2xl p-2.5 text-center border transition-colors ${
                         b.active
-                          ? "bg-green-50 border-green-300"
+                          ? "bg-orange-50 border-orange-300"
                           : b.unlocked
-                            ? "bg-gray-50 border-gray-200 hover:bg-green-50"
+                            ? "bg-gray-50 border-gray-200 hover:bg-orange-50"
                             : "bg-amber-50 border-amber-200"
                       }`}
                     >
@@ -145,7 +145,7 @@ export default function ShopDrawer({ open, onClose, onUpdate }: Props) {
                         {b.name}
                       </p>
                       {b.active ? (
-                        <span className="text-[9px] text-green-500 font-bold">当前</span>
+                        <span className="text-[9px] text-orange-500 font-bold">当前</span>
                       ) : b.unlocked ? (
                         <span className="text-[9px] text-blue-500 font-bold">已解锁</span>
                       ) : (
@@ -176,10 +176,10 @@ export default function ShopDrawer({ open, onClose, onUpdate }: Props) {
                       }}
                       className={`rounded-2xl p-3 text-center border transition-colors ${
                         a.equipped
-                          ? "bg-green-50 border-green-300"
+                          ? "bg-orange-50 border-orange-300"
                           : a.owned
-                            ? "bg-gray-50 border-gray-200 hover:bg-green-50"
-                            : "bg-white border-gray-100 hover:border-green-200"
+                            ? "bg-gray-50 border-gray-200 hover:bg-orange-50"
+                            : "bg-white border-gray-100 hover:border-orange-200"
                       }`}
                     >
                       <p className="text-xl mb-0.5">
@@ -189,7 +189,7 @@ export default function ShopDrawer({ open, onClose, onUpdate }: Props) {
                         {a.name}
                       </p>
                       {a.equipped ? (
-                        <span className="text-[9px] text-green-500 font-bold">已穿戴</span>
+                        <span className="text-[9px] text-orange-500 font-bold">已穿戴</span>
                       ) : a.owned ? (
                         <span className="text-[9px] text-blue-500 font-bold">穿戴</span>
                       ) : (

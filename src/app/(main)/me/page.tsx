@@ -12,7 +12,7 @@ export default async function ProfilePage() {
         {session?.user ? (
           <>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-200 to-emerald-300 flex items-center justify-center text-xl">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-200 to-orange-300 flex items-center justify-center text-xl">
                 🐾
               </div>
               <div>
