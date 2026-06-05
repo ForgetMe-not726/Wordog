@@ -68,7 +68,15 @@ async function main() {
       try {
         await prisma.word.upsert({
           where: { word_wordBookId: { word: w.headWord, wordBookId: book.id } },
-          update: {},
+          update: {
+            phonetic: phonetic ? `/${phonetic}/` : null,
+            meaning,
+            example,
+            synonyms: JSON.stringify(synonyms),
+            antonyms: JSON.stringify([]),
+            confusables: JSON.stringify([]),
+            derivatives: JSON.stringify(derivatives),
+          },
           create: {
             word: w.headWord,
             phonetic: phonetic ? `/${phonetic}/` : null,

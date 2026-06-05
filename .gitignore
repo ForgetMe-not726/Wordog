@@ -45,3 +45,6 @@ next-env.d.ts
 # local data & screenshots
 /data
 /screenshots
+
+# claude code
+/.claude

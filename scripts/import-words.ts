@@ -113,7 +113,7 @@ async function importBook(
     try {
       await prisma.word.upsert({
         where: { word_wordBookId: { word: data.word, wordBookId: book.id } },
-        update: {},
+        update: data,
         create: { ...data, wordBookId: book.id },
       });
       imported++;

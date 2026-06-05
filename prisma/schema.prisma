@@ -227,8 +227,9 @@ model CustomWordBook {
   userId String
   name   String
 
-  user  User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  words CustomWord[]
+  user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  words  CustomWord[]
+  groups WordGroup[]
 
   @@index([userId])
 }
@@ -242,6 +243,30 @@ model CustomWord {
   example    String?
 
   wordBook CustomWordBook @relation(fields: [wordBookId], references: [id], onDelete: Cascade)
+  groups   WordGroupWord[]
 
   @@unique([wordBookId, word])
+}
+
+model WordGroup {
+  id         String   @id @default(cuid())
+  wordBookId String
+  name       String
+  createdAt  DateTime @default(now())
+
+  wordBook CustomWordBook @relation(fields: [wordBookId], references: [id], onDelete: Cascade)
+  words    WordGroupWord[]
+
+  @@index([wordBookId])
+}
+
+model WordGroupWord {
+  id           String     @id @default(cuid())
+  groupId      String
+  customWordId String
+
+  group WordGroup  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  word  CustomWord @relation(fields: [customWordId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, customWordId])
 }
