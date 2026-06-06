@@ -9,7 +9,7 @@ const isCloud = dbUrl.includes("supabase") || dbUrl.includes("neon") || dbUrl.in
 
 const pool = new Pool({
   connectionString: dbUrl,
-  ...(isCloud ? { ssl: { rejectUnauthorized: false } } : {}),
+  ssl: isCloud ? { rejectUnauthorized: false } : false,
 });
 
 export const prisma =
